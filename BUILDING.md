@@ -32,5 +32,10 @@ find $ANDROID_HOME -name "apksigner"
 ./gradlew assembleRelease
 
 # Sign with apksigner
-/path/to/apksigner sign --ks testkey.keystore --ks-pass pass:123123 app/build/outputs/apk/debug/app-debug.apk 
+/path/to/apksigner sign --ks testkey.keystore --ks-pass pass:123123 app/build/outputs/apk/release/app-release-unsigned.apk
+
+# Upload
+mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/locatemydevice-v1.1.0.apk
+tag=$(gh release -R thewh1teagle/locatemydevice view --json tagName --jq '.tagName')
+gh release upload -R thewh1teagle/locatemydevice $tag app/build/outputs/apk/release/locatemydevice-v1.1.0.apk --clobber
 ```
